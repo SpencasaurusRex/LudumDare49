@@ -218,8 +218,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bced43544a40991489365d1ce8f08bd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftPlate: {fileID: 3836802689405253344}
-  rightPlate: {fileID: 3051411982176978879}
+  scale: {fileID: 1182579393}
+  LeftPlate: {fileID: 3836802689405253344}
+  RightPlate: {fileID: 3051411982176978879}
   BoxPrefabs:
   - {fileID: 8993504309562885358, guid: 8b859463b30d7d44aa1c92fc0c405ff7, type: 3}
   - {fileID: -4843997466714919437, guid: 35717b5cb0b065a48b0375d2b66ee6f0, type: 3}

@@ -13,11 +13,20 @@ public class Plate : MonoBehaviour {
         boxes = new Box[Positions.Length];
     }
 
+    public void Clear() {
+        for (int i = 0; i < boxes.Length; i++) {
+            var b = boxes[i];
+            Destroy(b.gameObject);
+            boxes[i] = null;
+        }
+    }
+
     public bool AddBox(Box box) {
         for (int i = 0; i < boxes.Length; i++) {
             if (boxes[i] == null) {
-                box.transform.parent = Positions[i];
-                box.transform.localPosition = Vector3.zero;
+                //box.transform.parent = Positions[i];
+                //box.transform.localPosition = Vector3.zero;
+                box.SetTarget(Positions[i]);
                 boxes[i] = box;
                 return true;
             }
@@ -29,6 +38,7 @@ public class Plate : MonoBehaviour {
         for (int i = boxes.Length - 1; i >= 0; i--) {
             var b = boxes[i];
             if (b != null && b.Color == color) {
+                boxes[i] = null;
                 has = true;
                 return b;
             }

@@ -4,8 +4,9 @@ using TMPro;
 
 public class GameController : MonoBehaviour {
     // Configuration
-    public Plate leftPlate;
-    public Plate rightPlate;
+    public Scale scale;
+    public Plate LeftPlate;
+    public Plate RightPlate;
     public Box[] BoxPrefabs;
     public float StartingTime = 60;
     public TMP_Text TimeLeftLabel;
@@ -25,16 +26,18 @@ public class GameController : MonoBehaviour {
             // TODO: Restart button
             return;
         }
-        if (leftPlate.NumberOfBoxes == rightPlate.NumberOfBoxes) {
-            StartCoroutine(FinishRound());
-        }
         if (timerRunning) {
             timeRemaining -= Time.deltaTime;
             if (timeRemaining <= 0) {
                 StartCoroutine(GameOver());
             }
             else {
-                Controls();
+                if (LeftPlate.NumberOfBoxes == RightPlate.NumberOfBoxes) {
+                    StartCoroutine(FinishRound());
+                }
+                else {
+                    Controls();
+                }
             }
         }
         TimeLeftLabel.text = $"Time Left: {Mathf.Ceil(timeRemaining)}";
@@ -51,6 +54,7 @@ public class GameController : MonoBehaviour {
         timerRunning = false;
         // TODO: Write "Stabilized" on screen
         yield return new WaitForSeconds(3.0f);
+        
         SetupRound();
     }
 
@@ -62,13 +66,13 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < 3; i++) {
             for (int c = 0; c < boxCounts[i]; c++) {
                 var b = Instantiate(BoxPrefabs[i]);
-                leftPlate.AddBox(b);
+                LeftPlate.AddBox(b);
             }
         }
         for (int i = 3; i < 6; i++) {
             for (int c = 0; c < boxCounts[i]; c++) {
                 var b = Instantiate(BoxPrefabs[i - 3]);
-                rightPlate.AddBox(b);
+                RightPlate.AddBox(b);
             }
         }
     }
@@ -223,22 +227,22 @@ public class GameController : MonoBehaviour {
 
     void Controls() {
         if (Input.GetKeyDown(KeyCode.Q)) {
-            Move(BoxColor.Red, rightPlate, leftPlate);
+            Move(BoxColor.Red, RightPlate, LeftPlate);
         }
         if (Input.GetKeyDown(KeyCode.E)) {
-            Move(BoxColor.Red, leftPlate, rightPlate);
+            Move(BoxColor.Red, LeftPlate, RightPlate);
         }
         if (Input.GetKeyDown(KeyCode.A)) {
-            Move(BoxColor.Green, rightPlate, leftPlate);
+            Move(BoxColor.Green, RightPlate, LeftPlate);
         }
         if (Input.GetKeyDown(KeyCode.D)) {
-            Move(BoxColor.Green, leftPlate, rightPlate);
+            Move(BoxColor.Green, LeftPlate, RightPlate);
         }
         if (Input.GetKeyDown(KeyCode.Z)) {
-            Move(BoxColor.Blue, rightPlate, leftPlate);
+            Move(BoxColor.Blue, RightPlate, LeftPlate);
         }
         if (Input.GetKeyDown(KeyCode.C)) {
-            Move(BoxColor.Blue, leftPlate, rightPlate);
+            Move(BoxColor.Blue, LeftPlate, RightPlate);
         }
     }
 
@@ -264,13 +268,13 @@ public class GameController : MonoBehaviour {
     void DebugControls() {
         if (Input.GetKeyDown(KeyCode.A)) {
             var box = Instantiate(BoxPrefabs[0]);
-            if (!leftPlate.AddBox(box)) {
+            if (!LeftPlate.AddBox(box)) {
                 Destroy(box.gameObject);
             }
         }
         if (Input.GetKeyDown(KeyCode.D)) {
             var box = Instantiate(BoxPrefabs[1]);
-            if (!rightPlate.AddBox(box)) {
+            if (!RightPlate.AddBox(box)) {
                 Destroy(box.gameObject);
             }
         }

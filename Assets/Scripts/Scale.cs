@@ -36,4 +36,9 @@ public class Scale : MonoBehaviour {
         var barRight = Bar.transform.position + Bar.transform.right * Bar.transform.localScale.x * 3.3f;
         RightPlate.transform.position = barRight;
     }
+
+    public void Clear() {
+        LeftPlate.Clear();
+        RightPlate.Clear();
+    }
 }
